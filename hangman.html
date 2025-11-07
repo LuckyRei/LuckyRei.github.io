@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spektakuläres Hangman mit 12 Leben</title>
+    <link rel="stylesheet" href="hangman_style.css">
+</head>
+
+<body>
+
+    <h1>Hangman</h1>
+    <p>Errate das Wort, bevor die Leben ausgehen!</p>
+
+    <div id="visual-container">
+        <div id="hangman-grafik"></div>
+    </div>
+
+    <div id="wort"></div>
+    <p>Leben: <span id="leben">12</span></p>
+
+    <div id="Buchstaben"></div>
+    <p id="antwort"></p>
+
+    <button id="neues_spiel">Neues Spiel</button>
+
+    <script>
+
+        (async () => {
+            wort = await (await fetch("/words.json")).json();
+
+            let geheimesWort = "";
+            let antwort = [];
+            let leben = 12;
+
+            const wortdoc = document.getElementById("wort");
+            const buchstabendoc = document.getElementById("Buchstaben");
+            const antwortdoc = document.getElementById("antwort");
+            const lebensspannedoc = document.getElementById("leben");
+            const neues_spieldoc = document.getElementById("neues_spiel");
+
+
+
+            // --- LOGIK FUNKTIONEN ---
+
+            function startGame() {
+                geheimesWort = wort[Math.floor(Math.random() * wort.length)].toLowerCase();
+                antwort = [];
+                leben = 12;
+
+                // UI/Animation zurücksetzen
+                antwortdoc.textContent = "";
+                antwortdoc.classList.remove('gewonnen', 'verloren', 'focus-in-expand-fwd');
+                lebensspannedoc.textContent = leben;
+
+                WortAnzeigen();
+                Knopf();
+            }
+
+
+            function WortAnzeigen() {
+                wortdoc.textContent = geheimesWort
+                    .split("")
+                    .map(buchstabe => (antwort.includes(buchstabe) ? buchstabe : "_"))
+                    .join(" ");
+            }
+
+            function Knopf() {
+                buchstabendoc.innerHTML = "";
+                const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ";
+
+                for (let buchstabe of alphabet) {
+                    const btn = document.createElement("button");
+                    btn.textContent = buchstabe;
+                    btn.onclick = () => guessLetter(buchstabe, btn).toLowerCase();
+                    btn.classList.add('btn-default');
+                    buchstabendoc.appendChild(btn);
+                }
+
+                // Scale-Up Animation für das Tastenfeld starten
+                buchstabendoc.classList.remove('scale-up-center');
+                setTimeout(() => {
+                    buchstabendoc.classList.add('scale-up-center');
+                }, 10);
+            }
+
+
+
+            function guessLetter(buchstabe, btn) {
+                btn.disabled = true;
+                if (geheimesWort.toLowerCase().includes(buchstabe.toLowerCase())) {
+                    antwort.push(buchstabe.toLowerCase());
+                    btn.classList.remove('btn-default');
+                    btn.classList.add('btn-richtig');
+                } else {
+                    leben--;
+                    lebensspannedoc.textContent = leben;
+                    btn.classList.remove('btn-default');
+                    btn.classList.add('btn-falsch');
+                }
+                WortAnzeigen();
+                checkEnd();
+            }
+
+            function checkEnd() {
+                if (!wortdoc.textContent.includes("_")) {
+                    antwortdoc.textContent = "Du hast gewonnen!";
+                    antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');
+                    Knopf_kaput();
+                } else if (leben <= 0) {
+                    antwortdoc.textContent = "Du hast Verloren! Das Wort war: " + geheimesWort.toLowerCase();
+                    antwortdoc.classList.add('verloren', 'focus-in-expand-fwd');
+                    Knopf_kaput();
+                }
+            }
+
+            function Knopf_kaput() {
+                const buttons = document.querySelectorAll("#Buchstaben button");
+                buttons.forEach(b => b.disabled = true);
+            }
+
+            // --- START & ANIMATION ---
+
+            neues_spieldoc.onclick = function () {
+                // Jello-Animation für den Button
+                neues_spieldoc.classList.add('jello-horizontal');
+                startGame();
+                setTimeout(() => {
+                    neues_spieldoc.classList.remove('jello-horizontal');
+                }, 950);
+            };
+
+            // Startet das Spiel beim Laden der Seite
+            startGame();
+
+        })();
+
+
+
+
+
+    </script>
+</body>
+
+</html>
