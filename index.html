@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spektakuläres Hangman mit 12 Leben</title>
     <link rel="stylesheet" href="hangman_style.css">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
@@ -18,7 +17,7 @@
     <p>Leben: <span id="leben">12</span></p>
 
     <div id="Buchstaben"></div>
-    <p id="antwort"></p>
+    <p id="antwort"></p>    
 
     <button id="neues_spiel">Neues Spiel</button>
 
@@ -65,7 +64,7 @@
 
             function Knopf() {
                 buchstabendoc.innerHTML = "";
-                const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ";
+                const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß";
 
                 for (let buchstabe of alphabet) {
                     const btn = document.createElement("button");
