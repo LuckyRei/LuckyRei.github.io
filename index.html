@@ -94,15 +94,6 @@
                     antwort.push(buchstabe.toLowerCase());
                     btn.classList.remove('btn-default');
                     btn.classList.add('btn-richtig');
-                    // wenn gewonnen
-                    const fwSpan = document.querySelector("#firework");
-
-                    const fwDiv = document.createElement("div");
-                    fwDiv.className = "firework";
-
-                    fwSpan.children.appendChild(fwDiv);
-                    fwSpan.children.appendChild(fwDiv);
-                    fwSpan.children.appendChild(fwDiv);
                 } else {
                     leben--;
                     lebensspannedoc.textContent = leben;
@@ -116,7 +107,14 @@
             function checkEnd() {
                 if (!wortdoc.textContent.includes("_")) {
                     antwortdoc.textContent = "Du hast gewonnen!";
-                    antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');        
+                    antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');    
+                    // wenn gewonnen
+                    const fwSpan = document.querySelector("#firework");
+                    const fwDiv = document.createElement("div");
+                    fwDiv.className = "firework";
+                    fwSpan.appendChild(fwDiv);
+                    fwSpan.appendChild(fwDiv);
+                    fwSpan.appendChild(fwDiv);    
                 } else if (leben <= 0) {
                     antwortdoc.textContent = "Du hast Verloren! Das Wort war: " + geheimesWort.toLowerCase();
                     antwortdoc.classList.add('verloren', 'focus-in-expand-fwd');
