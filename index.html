@@ -13,9 +13,10 @@
     <h1>Hangman</h1>
     <p>Errate das Wort, bevor die Leben ausgehen!</p>
 
-    <div class="firework"></div>
-    <div class="firework"></div>
-    <div class="firework"></div>
+    <span id="firework">
+
+    </span>
+
     
     <div id="wort"></div>
     <p>Leben: <span id="leben">12</span></p>
@@ -40,7 +41,6 @@
             const antwortdoc = document.getElementById("antwort");
             const lebensspannedoc = document.getElementById("leben");
             const neues_spieldoc = document.getElementById("neues_spiel");
-
 
 
             // --- LOGIK FUNKTIONEN ---
@@ -94,6 +94,15 @@
                     antwort.push(buchstabe.toLowerCase());
                     btn.classList.remove('btn-default');
                     btn.classList.add('btn-richtig');
+                    // wenn gewonnen
+                    const fwSpan = document.querySelector("#firework");
+
+                    const fwDiv = document.createElement("div");
+                    fwDiv.className = "firework";
+
+                    fwSpan.children.appendChild(fwDiv);
+                    fwSpan.children.appendChild(fwDiv);
+                    fwSpan.children.appendChild(fwDiv);
                 } else {
                     leben--;
                     lebensspannedoc.textContent = leben;
