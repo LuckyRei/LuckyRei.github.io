@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hangman</title>
+    
     <link rel="stylesheet" href="hangman_style.css">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
 </head>
@@ -74,7 +74,7 @@
                 for (let buchstabe of alphabet) {
                     const btn = document.createElement("button");
                     btn.textContent = buchstabe;
-                    btn.onclick = () => guessLetter(buchstabe, btn).toLowerCase();
+                    btn.onclick = () => guessLetter(buchstabe, btn);
                     btn.classList.add('btn-default');
                     buchstabendoc.appendChild(btn);
                 }
@@ -107,14 +107,13 @@
             function checkEnd() {
                 if (!wortdoc.textContent.includes("_")) {
                     antwortdoc.textContent = "Du hast gewonnen!";
-                    antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');    
                     // wenn gewonnen
                     const fwSpan = document.querySelector("#firework");
                     const fwDiv = document.createElement("div");
                     fwDiv.className = "firework";
-                    fwSpan.appendChild(fwDiv);
-                    fwSpan.appendChild(fwDiv);
-                    fwSpan.appendChild(fwDiv);    
+                    fwSpan.appendChild(fwDiv)
+                    antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');    
+                       
                 } else if (leben <= 0) {
                     antwortdoc.textContent = "Du hast Verloren! Das Wort war: " + geheimesWort.toLowerCase();
                     antwortdoc.classList.add('verloren', 'focus-in-expand-fwd');
