@@ -8,29 +8,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
 </head>
 
-<body>
+<body document.addEventListener("keyup", Tastature);>
 
     <h1>Hangman</h1>
     <p>Errate das Wort, bevor die Leben ausgehen!</p>
 
-    <span id="firework">
-
-    </span>
-
-    
+    <span id="firework"></span>
     <div id="wort"></div>
     <p>Leben: <span id="leben">12</span></p>
 
     <div id="Buchstaben"></div>
+    <p id="demo">Drücke eine Taste…</p>
     <p id="antwort"></p>
+    
 
     <button id="neues_spiel">Neues Spiel</button>
+    <audio id="winSound" src="winningSound.mp3" preload="auto"></audio>
+    <audio id="defeatSound" src="defeatSound.mp3" preload="auto"></audio>
+    <audio id="buttonSound" src="button.mp3" preload="auto"></audio>
+    <audio id="fireworkSound" src="firework.mp3" preload="auto"></audio>
+    <audio id="uSuck" src="uSuck.mp3" preload="auto"></audio>
+
 
 
     <script>
-
-        (async () => {
-            wort = await (await fetch("/words.json")).json();
+        document.addEventListener("DOMContentLoaded", async () => {
+            const wort = await (await fetch("/words.json")).json();
 
             let geheimesWort = "";
             let antwort = [];
@@ -42,9 +45,7 @@
             const lebensspannedoc = document.getElementById("leben");
             const neues_spieldoc = document.getElementById("neues_spiel");
 
-
             // --- LOGIK FUNKTIONEN ---
-
             function startGame() {
                 geheimesWort = wort[Math.floor(Math.random() * wort.length)].toLowerCase();
                 antwort = [];
@@ -53,12 +54,12 @@
                 // UI/Animation zurücksetzen
                 antwortdoc.textContent = "";
                 antwortdoc.classList.remove('gewonnen', 'verloren', 'focus-in-expand-fwd');
+                document.querySelector("#firework").innerHTML = "";
                 lebensspannedoc.textContent = leben;
 
                 WortAnzeigen();
                 Knopf();
             }
-
 
             function WortAnzeigen() {
                 wortdoc.textContent = geheimesWort
@@ -74,7 +75,15 @@
                 for (let buchstabe of alphabet) {
                     const btn = document.createElement("button");
                     btn.textContent = buchstabe;
-                    btn.onclick = () => guessLetter(buchstabe, btn);
+
+                    btn.onclick = () => {
+                        const buttonSound = document.getElementById("buttonSound");
+                        buttonSound.currentTime = 0; 
+                        buttonSound.play();
+
+                        guessLetter(buchstabe, btn);
+                    }
+
                     btn.classList.add('btn-default');
                     buchstabendoc.appendChild(btn);
                 }
@@ -84,10 +93,25 @@
                 setTimeout(() => {
                     buchstabendoc.classList.add('scale-up-center');
                 }, 10);
+                
             }
 
+            function Tastature(){
+                const key = event.key.toLowerCase();
+                if (key.match(/^[a-zäöüß]$/)) {
+                    document.getElementById("demo").textContent = "Du hast die Taste: " + key + " gedrückt";
+                    const btn = Array.from(document.querySelectorAll("#Buchstaben button"))
+                    .find(b => b.textContent.toLowerCase() === key);
 
-
+                    if (btn && !btn.disabled){
+                        const buttonSound = document.getElementById("buttonSound");
+                        buttonSound.currentTime = 0;
+                        buttonSound.play();
+                        guessLetter(key, btn);
+                    }
+                }
+            }
+        
             function guessLetter(buchstabe, btn) {
                 btn.disabled = true;
                 if (geheimesWort.toLowerCase().includes(buchstabe.toLowerCase())) {
@@ -100,26 +124,48 @@
                     btn.classList.remove('btn-default');
                     btn.classList.add('btn-falsch');
                 }
-                WortAnzeigen();
-                checkEnd();
+                WortAnzeigen()
+                checkEnd()
             }
 
             function checkEnd() {
                 if (!wortdoc.textContent.includes("_")) {
                     antwortdoc.textContent = "Du hast gewonnen!";
-                    // wenn gewonnen
+                    antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');
+
                     const fwSpan = document.querySelector("#firework");
-                    const fwDiv = document.createElement("div");
-                    fwDiv.className = "firework";
-                    fwSpan.appendChild(fwDiv)
-                    antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');    
-                       
+                    fwSpan.innerHTML = "";
+                    for (let i = 0; i < 3; i++) {
+                        const fwDiv = document.createElement("div");
+                        fwDiv.className = "firework";
+                        fwSpan.appendChild(fwDiv);
+                    }
+                    const win = document.getElementById("winSound");
+                    win.play();
+                    win.volume = 0.5;  
+                    win.loop = false;
+                    const firewor = document.getElementById("fireworkSound");
+                    firewor.play();
+                    firewor.volume = 0.5;  
+                    firewor.loop = false;
+                    
                 } else if (leben <= 0) {
-                    antwortdoc.textContent = "Du hast Verloren! Das Wort war: " + geheimesWort.toLowerCase();
+                    antwortdoc.textContent = "Du hast verloren! Das Wort war: " + geheimesWort.toLowerCase();
                     antwortdoc.classList.add('verloren', 'focus-in-expand-fwd');
+                    const lose = document.getElementById("defeatSound");
+                    lose.play();
+                    lose.volume = 0.5;  
+                    lose.loop = false;
+                    
+                    const suck = document.getElementById("uSuck");
+                    suck.play();
+                    suck.volume = 0.5;  
+                    suck.loop = false;
+
                     Knopf_kaput();
                 }
             }
+        
 
             function Knopf_kaput() {
                 const buttons = document.querySelectorAll("#Buchstaben button");
@@ -127,7 +173,6 @@
             }
 
             // --- START & ANIMATION ---
-
             neues_spieldoc.onclick = function () {
                 // Jello-Animation für den Button
                 neues_spieldoc.classList.add('jello-horizontal');
@@ -136,10 +181,13 @@
                     neues_spieldoc.classList.remove('jello-horizontal');
                 }, 950);
             };
-            // Startet das Spiel beim Laden der Seite
+
+            document.addEventListener("keyup", Tastature);
+            neues_spieldoc.addEventListener("click", startGame);
+
             startGame();
 
-        })();
+        })
 
     </script>
 </body>
