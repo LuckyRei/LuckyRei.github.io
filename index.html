@@ -3,93 +3,142 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./css/hangman_style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
-    <title>SkyWord Aero - Startseite</title>
+    <link rel="stylesheet" href="./css/home_style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>SkyHome - Startseite</title>
 </head>
 
 <body>
 
-    <div class="background-decor">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
-        <div class="cloud cloud-3"></div>
-        <div class="cloud cloud-4"></div>
-        <div class="cloud cloud-5"></div>
-    </div>
+    <div class="background-decor"></div>
 
     <h1>SkyHome</h1>
-    <p>Willkommen auf meiner Eigener Seite!</p>
-    <p>Hoffe du findes alles was du suchst!</p>
+    <p>Willkommen auf meiner Seite! Wähle eine Kategorie:</p>
 
-    <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center;">
-        <button class="menu-btn" id="spiel_modus">Spiel-Modus</button>
+    <!-- Suchleiste -->
+    <div class="search-container">
+        <input type="text" id="categorySearch" placeholder="🔍 Kategorie suchen...">
     </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all">Alle</button>
+        <button class="tab-btn" data-filter="spiele">Spiele</button>
+        <button class="tab-btn" data-filter="wissen">Wissen & Lernen</button>
+        <button class="tab-btn" data-filter="tools">Tools & Lifestyle</button>
+    </div>
+
+    <!-- Kategorien-Grid (Wird automatisch per JS befüllt) -->
+    <div class="category-grid" id="categoryGrid"></div>
 
     <audio id="buttonSound" src="./sounds/button.mp3" preload="auto"></audio>
 
-    <!-- Das Modal-Fenster -->
-    <div id="spielModusModal" class="modal">
+    <!-- Dynamisches Modal -->
+    <div id="modusModal" class="modal">
         <div class="modal-content">
-            <h2>Wähle deinen Spielmodus</h2>
-            
-            <!-- Hier werden die Spiele automatisch eingefügt -->
-            <div id="spielListe" class="modal-buttons"></div>
-
-            <button id="schliessenBtn" class="menu-btn" style="margin-top: 20px; background: #C1392D;">Schließen</button>
+            <h2 id="modalTitel">Wähle eine Option</h2>
+            <div id="modalListe"></div>
+            <button id="schliessenBtn" class="menu-btn danger-btn">Schließen</button>
         </div>
     </div>
 
     <script>
-        function playButtonFX(btn) {
+        function playButtonFX(element) {
             const sound = document.getElementById("buttonSound");
             if (sound) {
                 sound.currentTime = 0;
                 sound.play().catch(() => {});
             }
-            btn.classList.add('jello-horizontal');
-            setTimeout(() => {
-                btn.classList.remove('jello-horizontal');
-            }, 950);
+            element.classList.add('jello-horizontal');
+            setTimeout(() => element.classList.remove('jello-horizontal'), 950);
         }
 
-        async function ladeSpiele() {
+        // Lädt die Einträge einer bestimmten Kategorie ins Modal
+        async function oeffneModal(kategorieData) {
+            const modal = document.getElementById("modusModal");
+            const titel = document.getElementById("modalTitel");
+            const container = document.getElementById("modalListe");
+
+            titel.textContent = kategorieData.titel;
+            container.innerHTML = "<p style='opacity:0.7;'>Lade Inhalte...</p>";
+            modal.style.display = "flex";
+
+            if (!kategorieData.jsonFile) {
+                container.innerHTML = "<p>In Kürze verfügbar!</p>";
+                return;
+            }
+
             try {
-                const response = await fetch("./json/spiele.json");
-                const spiele = await response.json();
-                
-                const container = document.getElementById("spielListe");
+                const response = await fetch(kategorieData.jsonFile);
+                const eintraege = await response.json();
                 container.innerHTML = "";
 
-                spiele.forEach(spiel => {
-                    const a = document.createElement("a");
-                    a.href = spiel.link;
-                    a.style.textDecoration = "none";
-
+                eintraege.forEach(item => {
                     const btn = document.createElement("button");
-                    btn.className = "menu-btn";
-                    btn.textContent = spiel.titel;
-                    btn.style.width = "100%";
-
-                    a.addEventListener("click", (e) => {
-                        e.preventDefault();
+                    btn.className = "menu-btn game-btn";
+                    btn.innerHTML = `
+                        <span class="btn-title">${item.titel}</span>
+                        ${item.beschreibung ? `<span class="btn-desc">${item.beschreibung}</span>` : ''}
+                    `;
+                    btn.onclick = () => {
                         playButtonFX(btn);
-                        setTimeout(() => {
-                            window.location.href = spiel.link;
-                        }, 200);
-                    });
-
-                    a.appendChild(btn);
-                    container.appendChild(a);
+                        setTimeout(() => window.location.href = item.link, 200);
+                    };
+                    container.appendChild(btn);
                 });
             } catch (error) {
-                console.error("Fehler beim Laden der Spiele:", error);
+                container.innerHTML = "<p>Fehler beim Laden der Einträge.</p>";
+            }
+        }
+
+        // Lädt alle Kategorien dynamisch aus kategorien.json
+        async function ladeKategorien() {
+            try {
+                const response = await fetch("./json/kategorien.json");
+                const kategorien = await response.json();
+                const grid = document.getElementById("categoryGrid");
+                grid.innerHTML = "";
+
+                kategorien.forEach(kat => {
+                    const card = document.createElement("div");
+                    card.className = `category-card ${kat.verfuegbar ? '' : 'disabled'}`;
+                    card.setAttribute("data-category", kat.kategorie);
+
+                    const badgeText = kat.verfuegbar ? "VERFÜGBAR" : "BALD";
+                    const badgeClass = kat.verfuegbar ? "active" : "soon";
+
+                    card.innerHTML = `
+                        <span class="badge ${badgeClass}">${badgeText}</span>
+                        <h3>${kat.titel}</h3>
+                        <p>${kat.beschreibung}</p>
+                    `;
+
+                    // Maus-Leuchteffekt auf der Karte
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                        card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+                    });
+
+                    // Klick-Event
+                    card.addEventListener('click', (e) => {
+                        playButtonFX(card);
+                        if (kat.verfuegbar) {
+                            oeffneModal(kat);
+                        }
+                    });
+
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Fehler beim Laden der Kategorien:", error);
             }
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            ladeSpiele();
+            ladeKategorien();
 
+            // Hintergrund-Blasen
             const decorContainer = document.querySelector('.background-decor');
             for (let i = 0; i < 15; i++) {
                 const bubble = document.createElement('div');
@@ -103,29 +152,40 @@
                 decorContainer.appendChild(bubble);
             }
 
-            const randomTheme = `theme-${Math.floor(Math.random() * 6) + 1}`;
-            document.body.classList.add(randomTheme);
+            document.body.classList.add(`theme-${Math.floor(Math.random() * 6) + 1}`);
 
-            const modal = document.getElementById("spielModusModal");
-            const spielModusBtn = document.getElementById("spiel_modus");
-            const schliessenBtn = document.getElementById("schliessenBtn");
-
-            spielModusBtn.addEventListener("click", () => {
-                playButtonFX(spielModusBtn);
-                modal.style.display = "flex";
-            });
-
-            schliessenBtn.addEventListener("click", () => {
-                playButtonFX(schliessenBtn);
-                setTimeout(() => {
-                    modal.style.display = "none";
-                }, 150);
+            // Modal schließen
+            const modal = document.getElementById("modusModal");
+            document.getElementById("schliessenBtn").addEventListener("click", (e) => {
+                playButtonFX(e.currentTarget);
+                setTimeout(() => modal.style.display = "none", 150);
             });
 
             window.addEventListener("click", (e) => {
-                if (e.target === modal) {
-                    modal.style.display = "none";
-                }
+                if (e.target === modal) modal.style.display = "none";
+            });
+
+            // Live-Suche
+            document.getElementById('categorySearch').addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                document.querySelectorAll('.category-card').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(term) ? "block" : "none";
+                });
+            });
+
+            // Filter Tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const filter = e.target.getAttribute('data-filter');
+                    document.querySelectorAll('.category-card').forEach(card => {
+                        const cat = card.getAttribute('data-category');
+                        card.style.display = (filter === 'all' || cat === filter) ? "block" : "none";
+                    });
+                });
             });
         });
     </script>

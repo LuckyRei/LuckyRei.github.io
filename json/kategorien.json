@@ -1,0 +1,52 @@
+[
+  {
+    "id": "spiele",
+    "titel": "🎮 Spiele",
+    "beschreibung": "Word-Rätsel & mehr",
+    "kategorie": "spiele",
+    "verfuegbar": true,
+    "jsonFile": "./json/spiele.json"
+  },
+  {
+    "id": "kochen",
+    "titel": "🍳 Kochen",
+    "beschreibung": "Rezepte & Kochplaner",
+    "kategorie": "tools",
+    "verfuegbar": false
+  },
+  {
+    "id": "lernen",
+    "titel": "📚 Lernhilfen",
+    "beschreibung": "Karteikarten & Vokabeln",
+    "kategorie": "wissen",
+    "verfuegbar": false
+  },
+  {
+    "id": "musik",
+    "titel": "🎵 Musik Quiz",
+    "beschreibung": "Erkenne den Song",
+    "kategorie": "spiele",
+    "verfuegbar": false
+  },
+  {
+    "id": "fitness",
+    "titel": "🏋️ Fitness Tracker",
+    "beschreibung": "Workouts & Pläne",
+    "kategorie": "tools",
+    "verfuegbar": false
+  },
+  {
+    "id": "finanzen",
+    "titel": "💰 Budget Rechner",
+    "beschreibung": "Ausgaben im Blick",
+    "kategorie": "tools",
+    "verfuegbar": false
+  },
+  {
+    "id": "notizen",
+    "titel": "📝 Quick Notes",
+    "beschreibung": "Schnelle Gedanken festhalten",
+    "kategorie": "wissen",
+    "verfuegbar": false
+  }
+]

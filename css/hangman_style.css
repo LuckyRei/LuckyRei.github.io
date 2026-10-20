@@ -320,20 +320,21 @@ html {
 
 .modal-content {
     background: linear-gradient(135deg, rgba(2, 27, 56, 0.85), rgba(0, 136, 204, 0.85));
-    padding: 30px;
-    border-radius: 20px;
+    padding: 20px; /* Reduziert von 30px auf 20px */
+    border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     text-align: center;
-    max-width: 400px;
-    width: 80%;
+    max-width: 300px; /* Verkleinert von 400px auf 300px */
+    width: 70%; /* Reduziert von 80% auf 70% */
     backdrop-filter: blur(10px);
     animation: scale-up-center 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
 
 .modal-content h2 {
     color: #fff;
-    margin-bottom: 20px;
+    font-size: 1.4em; /* Überschrift etwas kleiner gemacht */
+    margin-bottom: 15px; /* Abstand verringert */
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
