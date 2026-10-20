@@ -1,0 +1,304 @@
+/* ============================= */
+/* 1. GLOBALE STILE & Regenbogen */
+/* ============================= */
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    background-size: 400% 100%;
+    animation: rainbow 15s ease-in-out infinite;
+    color: #ecf0f1; 
+    margin: 0;
+    padding: 50px 20px;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Frutiger Aero Themes mit angepassten Button-, Titel- und Leuchtfarben */
+body.theme-1 { 
+    background: linear-gradient(135deg, #021B38, #00448F, #0088CC, #00C8C8, #7BE5FF, #E0F8FF); 
+    background-size: 400% 100%;
+    --btn-bg: #0088CC; --btn-shadow: #005F8F; --btn-hover: #00A3E0;
+    --title-color-1: #7BE5FF; --title-color-2: #E0F8FF;
+    --theme-glow: #00E5FF;
+}
+body.theme-2 { 
+    background: linear-gradient(135deg, #4182A4, #5FB2D8, #8DE1F7, #A1EEFF, #C3E9FF, #6FA3EF); 
+    background-size: 400% 100%;
+    --btn-bg: #5FB2D8; --btn-shadow: #4182A4; --btn-hover: #7BC5E8;
+    --title-color-1: #A1EEFF; --title-color-2: #C3E9FF;
+    --theme-glow: #8DE1F7;
+}
+body.theme-3 { 
+    background: linear-gradient(135deg, #51103F, #9C27B0, #E040FB, #FF80AB, #EA80FC, #80D8FF); 
+    background-size: 400% 100%;
+    --btn-bg: #AB47BC; --btn-shadow: #7B1FA2; --btn-hover: #BA68C8;
+    --title-color-1: #E040FB; --title-color-2: #80D8FF;
+    --theme-glow: #E040FB;
+}
+body.theme-4 { 
+    background: linear-gradient(135deg, #FF1744, #FF4081, #FF80AB, #FFD54F, #00E676, #00E5FF); 
+    background-size: 400% 100%;
+    --btn-bg: #FF4081; --btn-shadow: #C2185B; --btn-hover: #FF80AB;
+    --title-color-1: #FFD54F; --title-color-2: #00E5FF;
+    --theme-glow: #00E676;
+}
+body.theme-5 { 
+    background: linear-gradient(135deg, #310012, #880E4F, #C2185B, #E91E63, #FF5252, #FF7043); 
+    background-size: 400% 100%;
+    --btn-bg: #D81B60; --btn-shadow: #880E4F; --btn-hover: #E91E63;
+    --title-color-1: #FF5252; --title-color-2: #FF7043;
+    --theme-glow: #FF5252;
+}
+body.theme-6 { 
+    background: linear-gradient(135deg, #00C6FF, #0072FF, #B721FF, #21D4FD, #B721FF, #08D9D6); 
+    background-size: 400% 100%;
+    --btn-bg: #0099FF; --btn-shadow: #0055B3; --btn-hover: #33ADFF;
+    --title-color-1: #21D4FD; --title-color-2: #08D9D6;
+    --theme-glow: #08D9D6;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===================================== */
+/*   FRUTIGER AERO HINTERGRUND-OBJEKTE   */
+/* ===================================== */
+.background-decor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.cloud {
+    position: absolute;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.3));
+    border-radius: 200px;
+    animation: floatCloud linear infinite;
+    box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.9), 0 8px 25px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(2px);
+}
+
+.cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.35));
+    border-radius: 50%;
+}
+
+.cloud-1 {
+    width: 380px; height: 75px;
+    top: 12%; left: -450px;
+    animation-duration: 65s;
+    opacity: 0.6;
+}
+.cloud-1::before { width: 110px; height: 110px; top: -55px; left: 40px; }
+.cloud-1::after { width: 140px; height: 140px; top: -70px; left: 160px; }
+
+.cloud-2 {
+    width: 220px; height: 85px;
+    top: 50%; left: -300px;
+    animation-duration: 45s;
+    animation-delay: -15s;
+    opacity: 0.75;
+}
+.cloud-2::before { width: 95px; height: 95px; top: -48px; left: 30px; }
+.cloud-2::after { width: 85px; height: 85px; top: -40px; left: 110px; }
+
+.cloud-3 {
+    width: 310px; height: 60px;
+    top: 80%; left: -400px;
+    animation-duration: 55s;
+    animation-delay: -25s;
+    opacity: 0.5;
+}
+.cloud-3::before { width: 80px; height: 80px; top: -40px; left: 50px; }
+.cloud-3::after { width: 90px; height: 90px; top: -45px; left: 150px; }
+
+.cloud-4 {
+    width: 290px; height: 65px;
+    top: 30%; left: -350px;
+    animation-duration: 50s;
+    animation-delay: -10s;
+    opacity: 0.55;
+}
+.cloud-4::before { width: 90px; height: 90px; top: -45px; left: 35px; }
+.cloud-4::after { width: 100px; height: 100px; top: -50px; left: 130px; }
+
+@keyframes floatCloud {
+    0% { transform: translateX(-500px); }
+    100% { transform: translateX(calc(100vw + 600px)); }
+}
+
+.bubble {
+    position: absolute;
+    bottom: -100px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.1) 60%, rgba(0, 150, 255, 0.25));
+    border-radius: 50%;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.7), 0 0 15px rgba(255, 255, 255, 0.4);
+    animation: riseBubble linear infinite;
+}
+
+@keyframes riseBubble {
+    0% { transform: translateY(0); opacity: 0; }
+    15% { opacity: 0.75; }
+    85% { opacity: 0.75; }
+    100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+canvas { cursor: crosshair; display: block; }
+
+/* Dynamischer, stylischer Frutiger Aero Titel */
+h1 { 
+    font-size: 3.5em; 
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 30%, var(--title-color-1, #7BE5FF) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 15px var(--title-color-2, rgba(0, 200, 255, 0.6)));
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px; 
+}
+
+p { color: #ffffff; font-size: 1.5em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); margin-bottom: 20px; }
+#wort { font-size: 3.5em; letter-spacing: 20px; margin: 30px 0; color: #fff; font-weight: 700; text-shadow: 0 0 15px #17BDDA, 0 0 20px #17BDDA; }
+#leben { font-weight: bold; color: #329ABF; font-size: 1.2em; }
+
+#Buchstaben {
+    margin-top: 30px;
+    max-width: 650px;
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#Buchstaben button {
+    margin: 6px;
+    padding: 14px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), var(--btn-bg, #BDCCE9));
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px; 
+    cursor: pointer;
+    transition: all 0.25s ease-in-out; 
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 4px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+}
+
+#Buchstaben button:not([disabled]):hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), var(--btn-hover, #95a5a6));
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8), 0 6px 15px var(--btn-shadow, rgba(0, 0, 0, 0.3));
+}
+
+#Buchstaben button:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#Buchstaben button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+    background: rgba(52, 73, 94, 0.5); 
+    box-shadow: none;
+    transform: none;
+}
+
+/* Richtig geratener Buchstabe: Leuchtet in Theme-Farbe */
+.btn-richtig { 
+    background: var(--theme-glow, #2ecc71) !important; 
+    box-shadow: 0 0 15px var(--theme-glow, #2ecc71), inset 0 1px 3px rgba(255, 255, 255, 0.8) !important; 
+    color: #fff !important; 
+    opacity: 1 !important;
+}
+
+/* Falsch geratener Buchstabe */
+.btn-falsch { 
+    background: rgba(231, 76, 60, 0.6) !important; 
+    box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4) !important; 
+    color: #fff !important; 
+}
+
+/* Regenbogen-Effekt bei Sieg für die richtigen Buchstaben */
+.gewonnen-buchstaben {
+    background: linear-gradient(270deg, #ff1744, #ffea00, #00e676, #00e5ff, #b721ff) !important;
+    background-size: 400% 400% !important;
+    animation: rainbowButton 4s ease infinite !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.9), inset 0 1px 3px rgba(255, 255, 255, 0.9) !important;
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+@keyframes rainbowButton {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.scale-up-center { animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both; }
+@keyframes scale-up-center { 0% { transform: scale(0.5); } 100% { transform: scale(1); } }
+
+#antwort { font-size: 1.8em; font-weight: 700; margin-top: 30px; padding: 15px 25px; border-radius: 10px; min-height: 50px; }
+.gewonnen { color: #fff; background-color: #5DAE51; text-shadow: 0 0 10px #d4d4d4; }
+.verloren { color: #fff; background-color: #C1392D; text-shadow: 0 0 10px #d4d4d4; }
+.focus-in-expand-fwd { animation: focus-in-expand-fwd 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
+@keyframes focus-in-expand-fwd { 0% { letter-spacing: -0.5em; transform: translateZ(-800px); filter: blur(12px); opacity: 0; } 100% { transform: translateZ(0); filter: blur(0); opacity: 1; } }
+
+/* Stil für beide Menü-Buttons (#neues_spiel und .menu-btn) */
+#neues_spiel, .menu-btn {
+    padding: 16px 32px;
+    font-size: 1.3em;
+    margin-top: 15px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), var(--btn-bg, #C2E5F0)); 
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.7), 0 6px 15px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
+    backdrop-filter: blur(4px);
+}
+
+#neues_spiel:not(.jello-horizontal):hover, .menu-btn:not(.jello-horizontal):hover { 
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45), var(--btn-hover, #ADD2D7)); 
+    transform: translateY(-3px) scale(1.02); 
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.9), 0 8px 20px var(--btn-shadow, rgba(0, 0, 0, 0.35)); 
+}
+
+#neues_spiel:active, .menu-btn:active { 
+    transform: translateY(1px); 
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.jello-horizontal { animation: jello-horizontal 0.9s both; }
+@keyframes jello-horizontal {
+    0% { transform: scale3d(1, 1, 1); }
+    30% { transform: scale3d(1.25, 0.75, 1); }
+    40% { transform: scale3d(0.75, 1.25, 1); }
+    50% { transform: scale3d(1.15, 0.85, 1); }
+    65% { transform: scale3d(0.95, 1.05, 1); }
+    75% { transform: scale3d(1.05, 0.95, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+}
+
+html {
+    overflow: hidden;
+    height: 100vh;
+}

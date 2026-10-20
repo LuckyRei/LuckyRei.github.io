@@ -3,17 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
-    
-    <link rel="stylesheet" href="hangman_style.css">
+    <link rel="stylesheet" href="../css/hangman_style.css">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
 </head>
 
-<body document.addEventListener("keyup", Tastature);>
+<body>
 
-    <h1>Hangman</h1>
-    <p>Errate das Wort, bevor die Leben ausgehen!</p>
+    <div class="background-decor">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
+        <div class="cloud cloud-5"></div>
+    </div>
 
-    <span id="firework"></span>
+    <h1>SkyWord Aero</h1>
+
     <div id="wort"></div>
     <p>Leben: <span id="leben">12</span></p>
 
@@ -21,19 +26,36 @@
     <p id="demo">Drücke eine Taste…</p>
     <p id="antwort"></p>
     
+    <button id="neues_spiel" class="menu-btn">Neues Spiel</button>
+    <br>
+    <button id="spiel_modus" class="menu-btn">Spiel-Modus</button>
 
-    <button id="neues_spiel">Neues Spiel</button>
-    <audio id="winSound" src="winningSound.mp3" preload="auto"></audio>
-    <audio id="defeatSound" src="defeatSound.mp3" preload="auto"></audio>
-    <audio id="buttonSound" src="button.mp3" preload="auto"></audio>
-    <audio id="fireworkSound" src="firework.mp3" preload="auto"></audio>
-    <audio id="uSuck" src="uSuck.mp3" preload="auto"></audio>
-
-
+    <audio id="winSound" src="../audio/winningSound.mp3" preload="auto"></audio>
+    <audio id="defeatSound" src="../audio/defeatSound.mp3" preload="auto"></audio>
+    <audio id="buttonSound" src="../audio/button.mp3" preload="auto"></audio>
+    <audio id="uSuck" src="../audio/uSuck.mp3" preload="auto"></audio>
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            const wort = await (await fetch("/words.json")).json();
+            // Blasen erzeugen, die endlos von unten nach oben wandern
+            const decorContainer = document.querySelector('.background-decor');
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 60 + 30;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                decorContainer.appendChild(bubble);
+            }
+
+            // Zufälliges Theme (theme-1 bis theme-6) auswählen
+            const randomTheme = `theme-${Math.floor(Math.random() * 6) + 1}`;
+            document.body.classList.add(randomTheme);
+
+            const wort = await (await fetch("../json/words.json")).json();
 
             let geheimesWort = "";
             let antwort = [];
@@ -44,17 +66,15 @@
             const antwortdoc = document.getElementById("antwort");
             const lebensspannedoc = document.getElementById("leben");
             const neues_spieldoc = document.getElementById("neues_spiel");
+            const spiel_modusdoc = document.getElementById("spiel_modus");
 
-            // --- LOGIK FUNKTIONEN ---
             function startGame() {
                 geheimesWort = wort[Math.floor(Math.random() * wort.length)].toLowerCase();
                 antwort = [];
                 leben = 12;
 
-                // UI/Animation zurücksetzen
                 antwortdoc.textContent = "";
                 antwortdoc.classList.remove('gewonnen', 'verloren', 'focus-in-expand-fwd');
-                document.querySelector("#firework").innerHTML = "";
                 lebensspannedoc.textContent = leben;
 
                 WortAnzeigen();
@@ -88,15 +108,13 @@
                     buchstabendoc.appendChild(btn);
                 }
 
-                // Scale-Up Animation für das Tastenfeld starten
                 buchstabendoc.classList.remove('scale-up-center');
                 setTimeout(() => {
                     buchstabendoc.classList.add('scale-up-center');
                 }, 10);
-                
             }
 
-            function Tastature(){
+            function Tastature(event){
                 const key = event.key.toLowerCase();
                 if (key.match(/^[a-zäöüß]$/)) {
                     document.getElementById("demo").textContent = "Du hast die Taste: " + key + " gedrückt";
@@ -124,8 +142,8 @@
                     btn.classList.remove('btn-default');
                     btn.classList.add('btn-falsch');
                 }
-                WortAnzeigen()
-                checkEnd()
+                WortAnzeigen();
+                checkEnd();
             }
 
             function checkEnd() {
@@ -133,21 +151,10 @@
                     antwortdoc.textContent = "Du hast gewonnen!";
                     antwortdoc.classList.add('gewonnen', 'focus-in-expand-fwd');
 
-                    const fwSpan = document.querySelector("#firework");
-                    fwSpan.innerHTML = "";
-                    for (let i = 0; i < 3; i++) {
-                        const fwDiv = document.createElement("div");
-                        fwDiv.className = "firework";
-                        fwSpan.appendChild(fwDiv);
-                    }
                     const win = document.getElementById("winSound");
                     win.play();
                     win.volume = 0.5;  
                     win.loop = false;
-                    const firewor = document.getElementById("fireworkSound");
-                    firewor.play();
-                    firewor.volume = 0.5;  
-                    firewor.loop = false;
                     
                 } else if (leben <= 0) {
                     antwortdoc.textContent = "Du hast verloren! Das Wort war: " + geheimesWort.toLowerCase();
@@ -166,15 +173,12 @@
                 }
             }
         
-
             function Knopf_kaput() {
                 const buttons = document.querySelectorAll("#Buchstaben button");
                 buttons.forEach(b => b.disabled = true);
             }
 
-            // --- START & ANIMATION ---
             neues_spieldoc.onclick = function () {
-                // Jello-Animation für den Button
                 neues_spieldoc.classList.add('jello-horizontal');
                 startGame();
                 setTimeout(() => {
@@ -182,13 +186,17 @@
                 }, 950);
             };
 
+            spiel_modusdoc.onclick = function () {
+                spiel_modusdoc.classList.add('jello-horizontal');
+                setTimeout(() => {
+                    spiel_modusdoc.classList.remove('jello-horizontal');
+                }, 950);
+            };
+
             document.addEventListener("keyup", Tastature);
-            neues_spieldoc.addEventListener("click", startGame);
 
             startGame();
-
-        })
-
+        });
     </script>
 </body>
 
