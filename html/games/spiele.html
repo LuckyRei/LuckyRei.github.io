@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../css/home_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>SkyHome - Spiele</title>
+</head>
+
+<body>
+
+    <div class="background-decor"></div>
+
+    <h1>Spiele-Sammlung</h1>
+    <p>Wähle ein Spiel oder filtere nach deinen Wünschen:</p>
+
+    <div class="search-container">
+        <input type="text" id="gameSearch" placeholder="🔍 Spiel suchen...">
+    </div>
+
+    <div class="filter-tabs">
+        <button class="tab-btn active" data-sort="default">Alle</button>
+        <button class="tab-btn" data-sort="az">A - Z</button>
+        <button class="tab-btn" data-sort="rating">Beliebtheit / Bewertung</button>
+    </div>
+
+    <div class="category-grid" id="gameGrid"></div>
+
+    <div style="margin-top: 30px; z-index: 2;">
+        <a href="../../index.html" style="text-decoration: none;">
+            <button class="menu-btn danger-btn" style="width: auto; padding: 12px 24px;">Zurück zur Startseite</button>
+        </a>
+    </div>
+
+    <audio id="buttonSound" src="../../sounds/button.mp3" preload="auto"></audio>
+
+    <script>
+        function playButtonFX(element) {
+            const sound = document.getElementById("buttonSound");
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {});
+            }
+            element.classList.add('animate__animated', 'animate__bounceIn');
+            setTimeout(() => {
+                element.classList.remove('animate__animated', 'animate__bounceIn');
+            }, 1000);
+        }
+
+        async function ladeSpiele() {
+            try {
+                const response = await fetch("../../json/spiele.json");
+                let spiele = await response.json();
+                renderGames(spiele);
+
+                document.getElementById('gameSearch').addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const gefiltert = spiele.filter(s => s.titel.toLowerCase().includes(term) || s.beschreibung.toLowerCase().includes(term));
+                    renderGames(gefiltert);
+                });
+
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        const sortType = e.target.getAttribute('data-sort');
+                        let sortiert = [...spiele];
+
+                        if (sortType === 'az') {
+                            sortiert.sort((a, b) => a.titel.localeCompare(b.titel));
+                        } else if (sortType === 'rating') {
+                            sortiert.sort((a, b) => b.rating - a.rating);
+                        }
+
+                        renderGames(sortiert);
+                    });
+                });
+
+            } catch (error) {
+                console.error("Fehler beim Laden der Spiele:", error);
+            }
+        }
+
+        function renderGames(liste) {
+            const grid = document.getElementById("gameGrid");
+            grid.innerHTML = "";
+
+            liste.forEach(spiel => {
+                const card = document.createElement("div");
+                card.className = "category-card";
+
+                card.innerHTML = `
+                    <span class="badge active">★ ${spiel.rating}</span>
+                    <h3>${spiel.titel}</h3>
+                    <p>${spiel.beschreibung}</p>
+                `;
+
+                // Korrigierter Maus-Leuchteffekt
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+                });
+
+                card.addEventListener('click', () => {
+                    playButtonFX(card);
+                    setTimeout(() => window.location.href = spiel.link, 300);
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            ladeSpiele();
+
+            const decorContainer = document.querySelector('.background-decor');
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 60 + 30;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                
+                decorContainer.appendChild(bubble);
+            }
+
+            document.body.classList.add(`theme-${Math.floor(Math.random() * 6) + 1}`);
+        });
+    </script>
+</body>
+
+</html>

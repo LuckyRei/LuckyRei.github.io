@@ -1,6 +1,18 @@
-/* ============================= */
-/* 1. GLOBALE STILE & Regenbogen */
-/* ============================= */
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+/* 1. Y2K-Schrift registrieren */
+@font-face {
+    font-family: 'Excelorate';
+    src: url('../font/Excelorate-Font.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 html {
     height: 100%;
@@ -9,65 +21,65 @@ html {
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Varela Round', sans-serif;
     text-align: center;
     background-size: 400% 100%;
     animation: rainbow 15s ease-in-out infinite;
     color: #ecf0f1; 
     margin: 0;
-    padding: clamp(10px, 2vh, 30px);
+    padding: 40px 20px;
     min-height: 100vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Zentriert den Inhalt vertikal */
-    box-sizing: border-box;
+    justify-content: center;
     width: 100%;
     position: relative;
+    transition: background 0.5s ease;
 }
 
-/* Frutiger Aero Themes mit angepassten Button-, Titel- und Leuchtfarben */
+/* 2. Dynamische Themes mit abgestimmten Farben für Überschriften, Buttons & Glow */
 body.theme-1 { 
     background: linear-gradient(135deg, #021B38, #00448F, #0088CC, #00C8C8, #7BE5FF, #E0F8FF); 
     background-size: 400% 100%;
     --btn-bg: #0088CC; --btn-shadow: #005F8F; --btn-hover: #00A3E0;
     --title-color-1: #7BE5FF; --title-color-2: #E0F8FF;
-    --theme-glow: #00E5FF;
+    --theme-glow: rgba(0, 229, 255, 0.8);
 }
 body.theme-2 { 
     background: linear-gradient(135deg, #4182A4, #5FB2D8, #8DE1F7, #A1EEFF, #C3E9FF, #6FA3EF); 
     background-size: 400% 100%;
     --btn-bg: #5FB2D8; --btn-shadow: #4182A4; --btn-hover: #7BC5E8;
     --title-color-1: #A1EEFF; --title-color-2: #C3E9FF;
-    --theme-glow: #8DE1F7;
+    --theme-glow: rgba(141, 225, 247, 0.8);
 }
 body.theme-3 { 
     background: linear-gradient(135deg, #51103F, #9C27B0, #E040FB, #FF80AB, #EA80FC, #80D8FF); 
     background-size: 400% 100%;
     --btn-bg: #AB47BC; --btn-shadow: #7B1FA2; --btn-hover: #BA68C8;
-    --title-color-1: #E040FB; --title-color-2: #80D8FF;
-    --theme-glow: #E040FB;
+    --title-color-1: #EA80FC; --title-color-2: #FF80AB;
+    --theme-glow: rgba(224, 64, 251, 0.85);
 }
 body.theme-4 { 
     background: linear-gradient(135deg, #FF1744, #FF4081, #FF80AB, #FFD54F, #00E676, #00E5FF); 
     background-size: 400% 100%;
     --btn-bg: #FF4081; --btn-shadow: #C2185B; --btn-hover: #FF80AB;
-    --title-color-1: #FFD54F; --title-color-2: #00E5FF;
-    --theme-glow: #00E676;
+    --title-color-1: #FFD54F; --title-color-2: #FF80AB;
+    --theme-glow: rgba(255, 64, 129, 0.85);
 }
 body.theme-5 { 
     background: linear-gradient(135deg, #310012, #880E4F, #C2185B, #E91E63, #FF5252, #FF7043); 
     background-size: 400% 100%;
     --btn-bg: #D81B60; --btn-shadow: #880E4F; --btn-hover: #E91E63;
     --title-color-1: #FF5252; --title-color-2: #FF7043;
-    --theme-glow: #FF5252;
+    --theme-glow: rgba(255, 82, 82, 0.85);
 }
 body.theme-6 { 
     background: linear-gradient(135deg, #00C6FF, #0072FF, #B721FF, #21D4FD, #B721FF, #08D9D6); 
     background-size: 400% 100%;
     --btn-bg: #0099FF; --btn-shadow: #0055B3; --btn-hover: #33ADFF;
     --title-color-1: #21D4FD; --title-color-2: #08D9D6;
-    --theme-glow: #08D9D6;
+    --theme-glow: rgba(8, 217, 214, 0.85);
 }
 
 @keyframes rainbow {
@@ -76,18 +88,16 @@ body.theme-6 {
     100% { background-position: 0% 50%; }
 }
 
-/* ===================================== */
-/*   FRUTIGER AERO HINTERGRUND-OBJEKTE   */
-/* ===================================== */
+/* Hintergrund-Dekor (Wolken & Blasen) - Behoben mit overflow: hidden */
 .background-decor {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Schneidet alles ab, was über den Bildschirmrand hinausragt */
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
 }
 
 .cloud {
@@ -129,89 +139,115 @@ body.theme-6 {
 
 .bubble {
     position: absolute;
-    bottom: -100px;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.1) 60%, rgba(0, 150, 255, 0.25));
+    bottom: -80px; /* Starten sicher unterhalb des Bildschirms */
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0.25));
     border-radius: 50%;
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.7), 0 0 15px rgba(255, 255, 255, 0.4);
     animation: riseBubble linear infinite;
+    opacity: 0; /* Standardmäßig unsichtbar beim Start */
 }
 
 @keyframes riseBubble {
-    0% { transform: translateY(0); opacity: 0; }
-    15% { opacity: 0.75; }
-    85% { opacity: 0.75; }
-    100% { transform: translateY(-110vh); opacity: 0; }
+    0% { 
+        transform: translateY(0) scale(0.8); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 0.75; /* Blendet erst ein, wenn sie sich nach oben bewegen */
+    }
+    90% { 
+        opacity: 0.75; 
+    }
+    100% { 
+        transform: translateY(-110vh) scale(1.2); 
+        opacity: 0; /* Blendet oben aus, bevor sie den Rand berühren */
+    }
 }
 
-canvas { cursor: crosshair; display: block; }
-
-/* Dynamischer Frutiger Aero Titel mit robuster Skalierung */
+/* 3. Überschrift mit dynamischem Farbverlauf & Glow */
 h1 { 
-    font-size: clamp(2rem, 5vh, 3.2rem); 
-    font-weight: 800;
-    background: linear-gradient(135deg, #ffffff 30%, var(--title-color-1, #7BE5FF) 100%);
+    font-family: 'Excelorate', sans-serif;
+    font-size: 3.8rem; 
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: linear-gradient(to bottom, #ffffff 20%, var(--title-color-1, #7BE5FF) 65%, var(--title-color-2, #E0F8FF) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 4px 15px var(--title-color-2, rgba(0, 200, 255, 0.6)));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6)) 
+            drop-shadow(0 0 25px var(--theme-glow, rgba(0, 200, 255, 0.7)));
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin: 5px 0 10px 0; 
+    margin: 10px 0; 
+    z-index: 2;
+    transition: all 0.5s ease;
 }
 
 p { 
     color: #ffffff; 
-    font-size: clamp(1rem, 2.2vh, 1.3rem); 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
-    margin: 4px 0 10px 0; 
+    font-size: 1.25rem; 
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); 
+    margin: 8px 0; 
+    z-index: 2;
 }
 
+/* Wort-Unterstriche übernehmen ebenfalls die Theme-Farbe & Glow */
 #wort { 
-    font-size: clamp(1.8rem, 4.5vh, 3rem); 
-    letter-spacing: clamp(8px, 1.5vw, 18px); 
-    margin: clamp(10px, 2vh, 20px) 0; 
+    font-size: 3rem; 
+    letter-spacing: 16px; 
+    margin: 20px 0; 
     color: #fff; 
     font-weight: 700; 
-    text-shadow: 0 0 15px #17BDDA, 0 0 20px #17BDDA; 
+    text-shadow: 0 0 15px var(--title-color-1, #17BDDA), 0 0 25px var(--theme-glow, #17BDDA); 
     word-break: break-all;
+    z-index: 2;
+    transition: all 0.5s ease;
 }
 
-#leben { font-weight: bold; color: #329ABF; font-size: 1.2em; }
+#leben { 
+    font-weight: bold; 
+    color: var(--title-color-1, #7BE5FF); 
+    font-size: 1.2em; 
+    text-shadow: 0 0 10px var(--theme-glow, rgba(0,200,255,0.6)); 
+    transition: all 0.5s ease;
+}
 
 #demo {
-    font-size: clamp(0.9rem, 1.8vh, 1.1rem);
-    margin: 5px 0;
+    font-size: 1.05rem;
+    margin: 10px 0;
+    z-index: 2;
 }
 
-/* Flexibles Buchstabengrid */
+/* Buchstabengrid */
 #Buchstaben {
-    margin-top: clamp(8px, 1.5vh, 20px);
-    max-width: 620px;
+    margin-top: 15px;
+    max-width: 900px;
     width: 100%;
     display: flex; 
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 #Buchstaben button {
-    margin: 4px;
-    padding: clamp(8px, 1.5vh, 12px) clamp(10px, 1.2vw, 16px);
-    font-size: clamp(13px, 2vh, 16px);
-    font-weight: bold;
+    margin: 6px;
+    padding: 14px 20px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: inherit;
     color: #ffffff;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), var(--btn-bg, #BDCCE9));
     border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 10px; 
+    border-radius: 14px; 
     cursor: pointer;
     transition: all 0.25s ease-in-out; 
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.6), 0 6px 15px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
 }
 
 #Buchstaben button:not([disabled]):hover {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), var(--btn-hover, #95a5a6));
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8), 0 6px 15px var(--btn-shadow, rgba(0, 0, 0, 0.3));
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.9), 0 8px 20px var(--btn-shadow, rgba(0, 0, 0, 0.35));
 }
 
 #Buchstaben button:active {
@@ -221,7 +257,7 @@ p {
 
 #Buchstaben button:disabled {
     cursor: not-allowed;
-    opacity: 0.4;
+    opacity: 0.45;
     background: rgba(52, 73, 94, 0.5); 
     box-shadow: none;
     transform: none;
@@ -229,14 +265,14 @@ p {
 
 .btn-richtig { 
     background: var(--theme-glow, #2ecc71) !important; 
-    box-shadow: 0 0 15px var(--theme-glow, #2ecc71), inset 0 1px 3px rgba(255, 255, 255, 0.8) !important; 
+    box-shadow: 0 0 20px var(--theme-glow, #2ecc71), inset 0 1px 4px rgba(255, 255, 255, 0.9) !important; 
     color: #fff !important; 
     opacity: 1 !important;
 }
 
 .btn-falsch { 
-    background: rgba(231, 76, 60, 0.6) !important; 
-    box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4) !important; 
+    background: rgba(231, 76, 60, 0.75) !important; 
+    box-shadow: 0 6px 15px rgba(192, 57, 43, 0.5) !important; 
     color: #fff !important; 
 }
 
@@ -244,38 +280,43 @@ p {
 @keyframes scale-up-center { 0% { transform: scale(0.5); } 100% { transform: scale(1); } }
 
 #antwort { 
-    font-size: clamp(1.2rem, 2.5vh, 1.6rem); 
+    font-size: 1.5rem; 
     font-weight: 700; 
-    margin-top: 10px; 
-    padding: 8px 16px; 
-    border-radius: 10px; 
-    min-height: 35px; 
+    margin-top: 15px; 
+    padding: 12px 24px; 
+    border-radius: 14px; 
+    min-height: 40px; 
+    z-index: 2;
 }
-.gewonnen { color: #fff; background-color: #5DAE51; text-shadow: 0 0 10px #d4d4d4; }
-.verloren { color: #fff; background-color: #C1392D; text-shadow: 0 0 10px #d4d4d4; }
+
+.gewonnen { color: #fff; background-color: #27ae60; box-shadow: 0 0 20px rgba(39, 174, 96, 0.6); }
+.verloren { color: #fff; background-color: #C1392D; box-shadow: 0 0 20px rgba(193, 57, 45, 0.6); }
+
 .focus-in-expand-fwd { animation: focus-in-expand-fwd 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
 @keyframes focus-in-expand-fwd { 0% { letter-spacing: -0.5em; transform: translateZ(-800px); filter: blur(12px); opacity: 0; } 100% { transform: translateZ(0); filter: blur(0); opacity: 1; } }
 
 /* Menü-Buttons */
 #neues_spiel, .menu-btn {
-    padding: clamp(10px, 1.8vh, 14px) clamp(20px, 2vw, 28px);
-    font-size: clamp(1rem, 2vh, 1.2rem);
-    margin-top: 8px;
+    padding: 14px 28px;
+    font-size: 1.15rem;
+    margin-top: 12px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), var(--btn-bg, #C2E5F0)); 
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
-    font-weight: bold;
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.7), 0 6px 15px rgba(0, 0, 0, 0.25);
+    font-weight: 700;
+    font-family: inherit;
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.7), 0 6px 18px rgba(0, 0, 0, 0.25);
     transition: all 0.25s ease;
     backdrop-filter: blur(4px);
+    z-index: 2;
 }
 
 #neues_spiel:not(.jello-horizontal):hover, .menu-btn:not(.jello-horizontal):hover { 
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45), var(--btn-hover, #ADD2D7)); 
-    transform: translateY(-2px) scale(1.02); 
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.9), 0 8px 20px var(--btn-shadow, rgba(0, 0, 0, 0.35)); 
+    transform: translateY(-3px) scale(1.03); 
+    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.9), 0 8px 22px var(--btn-shadow, rgba(0, 0, 0, 0.35)); 
 }
 
 #neues_spiel:active, .menu-btn:active { 
@@ -294,43 +335,13 @@ p {
     100% { transform: scale3d(1, 1, 1); }
 }
 
-/* Modal / Pop-up Styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: linear-gradient(135deg, rgba(2, 27, 56, 0.85), rgba(0, 136, 204, 0.85));
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    max-width: 300px;
-    width: 70%;
-    backdrop-filter: blur(10px);
-    animation: scale-up-center 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-}
-
-.modal-content h2 {
-    color: #fff;
-    font-size: 1.4em;
-    margin-bottom: 15px;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.modal-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Responsive Anpassungen für Hangman */
+@media (max-width: 768px) {
+    h1 { font-size: 2.3rem; }
+    #wort { font-size: 2.1rem; letter-spacing: 10px; }
+    #Buchstaben button {
+        padding: 10px 14px;
+        font-size: 1rem;
+        margin: 4px;
+    }
 }

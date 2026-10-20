@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/hangman_style.css">
+    <link rel="stylesheet" href="../../css/hangman_style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>SkyWord Aero</title>
 </head>
@@ -29,14 +29,15 @@
     
     <button id="neues_spiel" class="menu-btn">Neues Spiel</button>
     <br>
-    <a href="../index.html" style="text-decoration: none;">
-        <button id="spiel_modus" class="menu-btn">Zur Startseite</button>
+    <a href="spiele.html" style="text-decoration: none;">
+        <button id="spiel_modus" class="menu-btn">Spiele-Sammlung</button>
     </a>
 
-    <audio id="winSound" src="../sounds/winningSound.mp3" preload="auto"></audio>
-    <audio id="defeatSound" src="../sounds/defeatSound.mp3" preload="auto"></audio>
-    <audio id="buttonSound" src="../sounds/button.mp3" preload="auto"></audio>
-    <audio id="uSuck" src="../sounds/uSuck.mp3" preload="auto"></audio>
+    <!-- Korrigiert: winningsSound.mp3 -->
+    <audio id="winSound" src="../../sounds/winningsSound.mp3" preload="auto"></audio>
+    <audio id="defeatSound" src="../../sounds/defeatSound.mp3" preload="auto"></audio>
+    <audio id="buttonSound" src="../../sounds/button.mp3" preload="auto"></audio>
+    <audio id="uSuck" src="../../sounds/uSuck.mp3" preload="auto"></audio>
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
@@ -56,7 +57,7 @@
             const randomTheme = `theme-${Math.floor(Math.random() * 6) + 1}`;
             document.body.classList.add(randomTheme);
 
-            const wort = await (await fetch("../json/words.json")).json();
+            const wort = await (await fetch("../../json/words.json")).json();
 
             let geheimesWort = "";
             let antwort = [];

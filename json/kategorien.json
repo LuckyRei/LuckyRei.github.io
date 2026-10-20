@@ -1,18 +1,17 @@
 [
   {
-    "id": "spiele",
     "titel": "🎮 Spiele",
-    "beschreibung": "Word-Rätsel & mehr",
+    "beschreibung": "Wort-Rätsel & mehr",
     "kategorie": "spiele",
     "verfuegbar": true,
-    "jsonFile": "./json/spiele.json"
+    "link": "html/games/spiele.html"
   },
   {
-    "id": "kochen",
-    "titel": "🍳 Kochen",
+    "titel": "🍖 Koch Rezepte",
     "beschreibung": "Rezepte & Kochplaner",
-    "kategorie": "tools",
-    "verfuegbar": false
+    "kategorie": "rezepte",
+    "verfuegbar": false,
+    "link": "html/rezepte/koch.html"
   },
   {
     "id": "lernen",

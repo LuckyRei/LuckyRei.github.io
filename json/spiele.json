@@ -1,12 +1,20 @@
 [
-    {
-        "titel": "Hangman",
-        "beschreibung": "Errate das geheime Wort!",
-        "link": "./html/hangman.html"
-    },
-    {
-        "titel": "Anderes Spiel",
-        "beschreibung": "Bald verfügbar!",
-        "link": "./html/anderes_spiel.html"
-    }
+  {
+    "titel": "Hangman",
+    "beschreibung": "Errate das geheime Wort!",
+    "link": "../games/hangman.html",
+    "rating": 5
+  },
+  {
+    "titel": "Anderes Spiel",
+    "beschreibung": "Bald verfügbar!",
+    "link": "#",
+    "rating": 3
+  },
+  {
+    "titel": "Quiz Master",
+    "beschreibung": "Teste dein Wissen in verschiedenen Themen.",
+    "link": "#",
+    "rating": 4
+  }
 ]
