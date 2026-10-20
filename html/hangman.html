@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/hangman_style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>SkyWord Aero</title>
 </head>
 
 <body>
@@ -78,6 +79,8 @@
 
                 WortAnzeigen();
                 Knopf();
+                
+                fitToScreen();
             }
 
             function WortAnzeigen() {
@@ -186,6 +189,22 @@
             };
 
             document.addEventListener("keyup", Tastature);
+
+            function fitToScreen() {
+                document.body.style.transform = 'none';
+                
+                const contentHeight = document.body.scrollHeight;
+                const windowHeight = window.innerHeight;
+
+                if (contentHeight > windowHeight) {
+                    const scale = windowHeight / contentHeight;
+                    document.body.style.transform = `scale(${scale})`;
+                } else {
+                    document.body.style.transform = 'none';
+                }
+            }
+
+            window.addEventListener('resize', fitToScreen);
 
             startGame();
         });
