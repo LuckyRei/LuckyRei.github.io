@@ -2,11 +2,11 @@
     {
         "titel": "Hangman",
         "beschreibung": "Errate das geheime Wort!",
-        "link": "index.html"
+        "link": "./html/hangman.html"
     },
     {
         "titel": "Anderes Spiel",
         "beschreibung": "Bald verfügbar!",
-        "link": "anderes_spiel.html"
+        "link": "./html/anderes_spiel.html"
     }
 ]

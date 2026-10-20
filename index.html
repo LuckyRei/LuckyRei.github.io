@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/hangman_style.css">
+    <link rel="stylesheet" href="./css/hangman_style.css">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <title>SkyWord Aero - Startseite</title>
 </head>
@@ -26,7 +26,7 @@
         <button class="menu-btn" id="spiel_modus">Spiel-Modus</button>
     </div>
 
-    <audio id="buttonSound" src="../audio/button.mp3" preload="auto"></audio>
+    <audio id="buttonSound" src="./sounds/button.mp3" preload="auto"></audio>
 
     <!-- Das Modal-Fenster -->
     <div id="spielModusModal" class="modal">
@@ -41,12 +41,11 @@
     </div>
 
     <script>
-        // Hilfsfunktion für Button-Sound & Animation
         function playButtonFX(btn) {
             const sound = document.getElementById("buttonSound");
             if (sound) {
                 sound.currentTime = 0;
-                sound.play().catch(() => {}); // Fehler abfangen, falls Browser Autoplay blockiert
+                sound.play().catch(() => {});
             }
             btn.classList.add('jello-horizontal');
             setTimeout(() => {
@@ -54,14 +53,13 @@
             }, 950);
         }
 
-        // Spiele dynamisch aus der JSON-Datei laden
         async function ladeSpiele() {
             try {
-                const response = await fetch("../json/spiele.json");
+                const response = await fetch("./json/spiele.json");
                 const spiele = await response.json();
                 
                 const container = document.getElementById("spielListe");
-                container.innerHTML = ""; // Container leeren
+                container.innerHTML = "";
 
                 spiele.forEach(spiel => {
                     const a = document.createElement("a");
@@ -73,7 +71,6 @@
                     btn.textContent = spiel.titel;
                     btn.style.width = "100%";
 
-                    // Sound abspielen & kurz warten, bevor die Seite wechselt
                     a.addEventListener("click", (e) => {
                         e.preventDefault();
                         playButtonFX(btn);
@@ -91,10 +88,8 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Spiele beim Laden abrufen
             ladeSpiele();
 
-            // Blasen erzeugen, die endlos von unten nach oben wandern
             const decorContainer = document.querySelector('.background-decor');
             for (let i = 0; i < 15; i++) {
                 const bubble = document.createElement('div');
@@ -108,22 +103,18 @@
                 decorContainer.appendChild(bubble);
             }
 
-            // Zufälliges Theme (theme-1 bis theme-6) auswählen
             const randomTheme = `theme-${Math.floor(Math.random() * 6) + 1}`;
             document.body.classList.add(randomTheme);
 
-            // Modal Steuerung
             const modal = document.getElementById("spielModusModal");
             const spielModusBtn = document.getElementById("spiel_modus");
             const schliessenBtn = document.getElementById("schliessenBtn");
 
-            // Öffnen
             spielModusBtn.addEventListener("click", () => {
                 playButtonFX(spielModusBtn);
                 modal.style.display = "flex";
             });
 
-            // Schließen
             schliessenBtn.addEventListener("click", () => {
                 playButtonFX(schliessenBtn);
                 setTimeout(() => {
@@ -131,7 +122,6 @@
                 }, 150);
             });
 
-            // Schließen bei Klick außerhalb
             window.addEventListener("click", (e) => {
                 if (e.target === modal) {
                     modal.style.display = "none";

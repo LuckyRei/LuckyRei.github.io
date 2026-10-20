@@ -28,8 +28,8 @@
     
     <button id="neues_spiel" class="menu-btn">Neues Spiel</button>
     <br>
-    <a href="main_page.html" style="text-decoration: none;">
-            <button id="spiel_modus" class="menu-btn">Spiel-Modus</button>
+    <a href="../index.html" style="text-decoration: none;">
+        <button id="spiel_modus" class="menu-btn">Zur Startseite</button>
     </a>
 
     <audio id="winSound" src="../sounds/winningSound.mp3" preload="auto"></audio>
@@ -39,7 +39,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            // Blasen erzeugen, die endlos von unten nach oben wandern
             const decorContainer = document.querySelector('.background-decor');
             for (let i = 0; i < 15; i++) {
                 const bubble = document.createElement('div');
@@ -53,7 +52,6 @@
                 decorContainer.appendChild(bubble);
             }
 
-            // Zufälliges Theme (theme-1 bis theme-6) auswählen
             const randomTheme = `theme-${Math.floor(Math.random() * 6) + 1}`;
             document.body.classList.add(randomTheme);
 
@@ -68,7 +66,6 @@
             const antwortdoc = document.getElementById("antwort");
             const lebensspannedoc = document.getElementById("leben");
             const neues_spieldoc = document.getElementById("neues_spiel");
-            const spiel_modusdoc = document.getElementById("spiel_modus");
 
             function startGame() {
                 geheimesWort = wort[Math.floor(Math.random() * wort.length)].toLowerCase();
@@ -185,13 +182,6 @@
                 startGame();
                 setTimeout(() => {
                     neues_spieldoc.classList.remove('jello-horizontal');
-                }, 950);
-            };
-
-            spiel_modusdoc.onclick = function () {
-                spiel_modusdoc.classList.add('jello-horizontal');
-                setTimeout(() => {
-                    spiel_modusdoc.classList.remove('jello-horizontal');
                 }, 950);
             };
 
