@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/hangman_style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>SkyWord Aero - Startseite</title>
+</head>
+
+<body>
+
+    <div class="background-decor">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
+        <div class="cloud cloud-5"></div>
+    </div>
+
+    <h1>SkyHome</h1>
+    <p>Willkommen auf meiner Eigener Seite!</p>
+    <p>Hoffe du findes alles was du suchst!</p>
+
+    <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+        <button class="menu-btn" id="spiel_modus">Spiel-Modus</button>
+    </div>
+
+    <audio id="buttonSound" src="../audio/button.mp3" preload="auto"></audio>
+
+    <!-- Das Modal-Fenster -->
+    <div id="spielModusModal" class="modal">
+        <div class="modal-content">
+            <h2>Wähle deinen Spielmodus</h2>
+            
+            <!-- Hier werden die Spiele automatisch eingefügt -->
+            <div id="spielListe" class="modal-buttons"></div>
+
+            <button id="schliessenBtn" class="menu-btn" style="margin-top: 20px; background: #C1392D;">Schließen</button>
+        </div>
+    </div>
+
+    <script>
+        // Hilfsfunktion für Button-Sound & Animation
+        function playButtonFX(btn) {
+            const sound = document.getElementById("buttonSound");
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {}); // Fehler abfangen, falls Browser Autoplay blockiert
+            }
+            btn.classList.add('jello-horizontal');
+            setTimeout(() => {
+                btn.classList.remove('jello-horizontal');
+            }, 950);
+        }
+
+        // Spiele dynamisch aus der JSON-Datei laden
+        async function ladeSpiele() {
+            try {
+                const response = await fetch("../json/spiele.json");
+                const spiele = await response.json();
+                
+                const container = document.getElementById("spielListe");
+                container.innerHTML = ""; // Container leeren
+
+                spiele.forEach(spiel => {
+                    const a = document.createElement("a");
+                    a.href = spiel.link;
+                    a.style.textDecoration = "none";
+
+                    const btn = document.createElement("button");
+                    btn.className = "menu-btn";
+                    btn.textContent = spiel.titel;
+                    btn.style.width = "100%";
+
+                    // Sound abspielen & kurz warten, bevor die Seite wechselt
+                    a.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        playButtonFX(btn);
+                        setTimeout(() => {
+                            window.location.href = spiel.link;
+                        }, 200);
+                    });
+
+                    a.appendChild(btn);
+                    container.appendChild(a);
+                });
+            } catch (error) {
+                console.error("Fehler beim Laden der Spiele:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Spiele beim Laden abrufen
+            ladeSpiele();
+
+            // Blasen erzeugen, die endlos von unten nach oben wandern
+            const decorContainer = document.querySelector('.background-decor');
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 60 + 30;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                decorContainer.appendChild(bubble);
+            }
+
+            // Zufälliges Theme (theme-1 bis theme-6) auswählen
+            const randomTheme = `theme-${Math.floor(Math.random() * 6) + 1}`;
+            document.body.classList.add(randomTheme);
+
+            // Modal Steuerung
+            const modal = document.getElementById("spielModusModal");
+            const spielModusBtn = document.getElementById("spiel_modus");
+            const schliessenBtn = document.getElementById("schliessenBtn");
+
+            // Öffnen
+            spielModusBtn.addEventListener("click", () => {
+                playButtonFX(spielModusBtn);
+                modal.style.display = "flex";
+            });
+
+            // Schließen
+            schliessenBtn.addEventListener("click", () => {
+                playButtonFX(schliessenBtn);
+                setTimeout(() => {
+                    modal.style.display = "none";
+                }, 150);
+            });
+
+            // Schließen bei Klick außerhalb
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

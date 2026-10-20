@@ -1,0 +1,12 @@
+[
+    {
+        "titel": "Hangman",
+        "beschreibung": "Errate das geheime Wort!",
+        "link": "index.html"
+    },
+    {
+        "titel": "Anderes Spiel",
+        "beschreibung": "Bald verfügbar!",
+        "link": "anderes_spiel.html"
+    }
+]
