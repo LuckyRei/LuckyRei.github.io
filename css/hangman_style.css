@@ -343,3 +343,117 @@ html {
     flex-direction: column;
     gap: 15px;
 }
+/* Automatische Anpassung für kleinere Bildschirme / Laptops (Index & Hangman) */
+@media (max-height: 750px), (max-width: 900px) {
+    body {
+        padding: 10px;
+        justify-content: space-between;
+    }
+
+    h1, .game-title {
+        font-size: 2rem !important;
+        margin-bottom: 2px !important;
+    }
+
+    p, .game-subtitle {
+        font-size: 0.9rem !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* Hangman spezifisch kompakter machen */
+    .word-container, .letters-container, .keyboard {
+        margin: 5px 0;
+    }
+
+    .letter-btn, button.key {
+        padding: 6px 10px !important;
+        font-size: 0.85rem !important;
+        min-width: 30px !important;
+    }
+
+    /* Index-Seiten Grid anpassen */
+    .category-grid {
+        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .category-card {
+        padding: 12px 10px;
+    }
+}
+/* Speziell für Smartphones (Hochformat & kleine Displays) */
+@media (max-width: 600px) {
+    body {
+        padding: 10px 8px;
+        justify-content: flex-start;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 4px;
+    }
+
+    p {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+
+    /* Suchleiste und Filter vollbreit auf Handy */
+    .search-container {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .search-container input {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .filter-tabs {
+        gap: 6px;
+        margin-bottom: 15px;
+    }
+
+    .tab-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    /* Auf Handys machen wir 2 Spalten nebeneinander, damit es optimal ausfüllt */
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        width: 100%;
+    }
+
+    .category-card {
+        padding: 15px 8px;
+    }
+
+    .category-card h3 {
+        font-size: 1.05rem;
+    }
+
+    .category-card p {
+        font-size: 0.75rem;
+    }
+
+    /* Hangman / Spiel-Tastatur auf Handys kompakt anordnen */
+    .keyboard-container, .letter-buttons, .keyboard {
+        gap: 4px;
+        max-width: 100%;
+    }
+
+    .letter-btn, button.key {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+        min-width: 26px;
+    }
+
+    /* Modale für Handys anpassen, damit sie nicht den Bildschirm sprengen */
+    .modal-content {
+        width: 95%;
+        padding: 20px 15px;
+    }
+}
