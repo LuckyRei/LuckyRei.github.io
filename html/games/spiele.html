@@ -51,7 +51,7 @@
 
         async function ladeSpiele() {
             try {
-                const response = await fetch("../../json/spiele.json");
+                const response = await fetch("../../json/spiele/spiele.json");
                 let spiele = await response.json();
                 renderGames(spiele);
 

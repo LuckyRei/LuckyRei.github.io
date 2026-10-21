@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyHome - Chicken Curry</title>
+<link rel="stylesheet" href="../../css/recipe_style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+
+<div class="background-decor"></div>
+
+<h1>Chicken Curry</h1>
+<p>Ein schnelles und cremiges Geschmackserlebnis!</p>
+
+<!-- Info-Chips: Werte nach Bedarf anpassen -->
+<div class="meta">
+  <span>⏱️ ca. 30 Min.</span>
+  <span>🍽️ 2–4 Portionen</span>
+  <span>🔥 Einfach</span>
+  <span class="rating">★ 5.0</span>
+</div>
+
+<div class="recipe-grid">
+
+  <!-- Zutaten -->
+  <div class="category-card static">
+    <h3>🛒 Zutaten</h3>
+    <ul class="ingredients">
+      <li><label><input type="checkbox"><span>🍗 2 bis 4 Hühnerbrüste oder Hühnerschenkel (Thighs)</span></label></li>
+      <li><label><input type="checkbox"><span>🌶️ Paprikapulver, Knoblauchpulver, Kurkuma, Currypulver, Salz &amp; Pfeffer</span></label></li>
+      <li><label><input type="checkbox"><span>🫒 Etwas Olivenöl</span></label></li>
+      <li><label><input type="checkbox"><span>🧅 1 Zwiebel (in Würfeln) &amp; frischer Knoblauch</span></label></li>
+      <li><label><input type="checkbox"><span>🥥 Kokosmilch (Coconut Milk)</span></label></li>
+      <li><label><input type="checkbox"><span>🍛 Japanische Curry-Würfel (Japanese Curry Cubes)</span></label></li>
+      <li><label><input type="checkbox"><span>🍚 Reis (als Beilage)</span></label></li>
+    </ul>
+  </div>
+
+  <!-- Zubereitung -->
+  <div class="category-card static">
+    <h3>👨‍🍳 Zubereitung</h3>
+    <ol class="steps">
+      <li>Das Hühnchen mit Paprika, Knoblauchpulver, Kurkuma, Currypulver, Salz, Pfeffer und etwas Olivenöl marinieren. Den Reis parallel nach Packungsanleitung kochen.</li>
+      <li>Das Hühnchen in eine Pfanne geben und bei mittlerer bis hoher Hitze mindestens 7 Minuten anbraten, bis es vollständig durch ist. Danach herausnehmen und der Länge nach in Streifen schneiden.</li>
+      <li>In derselben Pfanne Zwiebeln und Knoblauch einige Minuten anbraten (Sauté).</li>
+      <li>Die Kokosmilch und die japanischen Curry-Würfel dazugeben und für 2–3 Minuten köcheln lassen.</li>
+      <li>Zum Schluss den Reis und das geschnittene Hühnchen direkt in die Soße geben und vermengen!</li>
+    </ol>
+  </div>
+
+</div>
+
+<div class="back-wrap">
+  <a href="koch.html" class="menu-btn danger-btn back-link">← Zurück zur Übersicht</a>
+</div>
+
+<audio id="buttonSound" src="../../sounds/button.mp3" preload="auto"></audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Maus-Leuchteffekt für die Rezeptkarten
+  document.querySelectorAll('.category-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+    });
+  });
+
+  // Dampf-Partikel erzeugen (Klasse passt jetzt zum CSS: .steam-particle)
+  const decorContainer = document.querySelector('.background-decor');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion) {
+    for (let i = 0; i < 15; i++) {
+      const steam = document.createElement('div');
+      steam.className = 'steam-particle';
+      const size = Math.random() * 60 + 30;
+      steam.style.width = `${size}px`;
+      steam.style.height = `${size}px`;
+      steam.style.left = `${Math.random() * 100}%`;
+      steam.style.animationDuration = `${Math.random() * 8 + 6}s`;
+      steam.style.animationDelay = `${Math.random() * 5}s`;
+      decorContainer.appendChild(steam);
+    }
+  }
+
+  // Zufälliges Theme: im CSS gibt es theme-1 bis theme-4
+  document.body.classList.add(`theme-${Math.floor(Math.random() * 4) + 1}`);
+});
+</script>
+</body>
+</html>

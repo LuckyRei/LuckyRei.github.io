@@ -10,7 +10,7 @@
     "titel": "🍖 Koch Rezepte",
     "beschreibung": "Rezepte & Kochplaner",
     "kategorie": "rezepte",
-    "verfuegbar": false,
+    "verfuegbar": true,
     "link": "html/rezepte/koch.html"
   },
   {
