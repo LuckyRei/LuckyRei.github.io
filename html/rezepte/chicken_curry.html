@@ -14,7 +14,7 @@
 <h1>Chicken Curry</h1>
 <p>Ein schnelles und cremiges Geschmackserlebnis!</p>
 
-<!-- Info-Chips: Werte nach Bedarf anpassen -->
+<!-- Info-Chips -->
 <div class="meta">
   <span>⏱️ ca. 30 Min.</span>
   <span>🍽️ 2–4 Portionen</span>
@@ -70,25 +70,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Dampf-Partikel erzeugen (Klasse passt jetzt zum CSS: .steam-particle)
+  // Dampf-Partikel erzeugen
   const decorContainer = document.querySelector('.background-decor');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reduceMotion) {
-    for (let i = 0; i < 15; i++) {
+    const isDarkSmoke = Math.random() < 0.05;
+    if (isDarkSmoke) {
+      decorContainer.classList.add('dark-smoke');
+    }
+
+    for (let i = 0; i < 18; i++) {
       const steam = document.createElement('div');
       steam.className = 'steam-particle';
-      const size = Math.random() * 60 + 30;
+      const size = Math.random() * 120 + 80;                 // 80–200 px
       steam.style.width = `${size}px`;
-      steam.style.height = `${size}px`;
+      steam.style.height = `${size * 1.25}px`;               // leicht hochkant
       steam.style.left = `${Math.random() * 100}%`;
-      steam.style.animationDuration = `${Math.random() * 8 + 6}s`;
-      steam.style.animationDelay = `${Math.random() * 5}s`;
+      steam.style.filter = `blur(${size * 0.15}px)`;         // große Wolken = weicher
+      steam.style.setProperty('--drift', `${(Math.random() - 0.5) * 200}px`);
+      steam.style.setProperty('--peak', (Math.random() * 0.3 + 0.25).toFixed(2));
+      steam.style.animationDuration = `${Math.random() * 8 + 10}s`;            // 10–18 s
+      steam.style.animationDelay = `-${Math.random() * 18}s`;
       decorContainer.appendChild(steam);
     }
   }
 
-  // Zufälliges Theme: im CSS gibt es theme-1 bis theme-4
+  // Zufälliges Theme: theme-1 bis theme-4
   document.body.classList.add(`theme-${Math.floor(Math.random() * 4) + 1}`);
 });
 </script>

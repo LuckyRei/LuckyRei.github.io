@@ -6,15 +6,15 @@
     "rating": 5
   },
   {
-    "titel": "Anderes Spiel",
-    "beschreibung": "Bald verfügbar!",
-    "link": "#",
+    "titel": "Chopped Cheese Sandwich",
+    "beschreibung": "Test!",
+    "link": "../rezepte/chopped_cheese_sandwich.html",
     "rating": 3
   },
   {
-    "titel": "Quiz Master",
-    "beschreibung": "Teste dein Wissen in verschiedenen Themen.",
-    "link": "#",
+    "titel": "Dill Pickles",
+    "beschreibung": "Teste",
+    "link": "../rezepte/homemade_dill_pickles.html",
     "rating": 4
   }
 ]

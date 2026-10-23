@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyHome - Homemade Dill Pickles</title>
+<link rel="stylesheet" href="../../css/recipe_style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+
+<div class="background-decor"></div>
+
+<h1>Homemade Dill Pickles</h1>
+<p>Knackig, würzig und schnell selbst eingelegte Essiggurken!</p>
+
+<!-- Info-Chips -->
+<div class="meta">
+  <span>⏱️ ca. 15 Min.</span>
+  <span>🍽️ 1 Glas</span>
+  <span>🔥 Sehr Einfach</span>
+  <span class="rating">★ 5.0</span>
+</div>
+
+<div class="recipe-grid">
+
+  <!-- Zutaten -->
+  <div class="category-card static">
+    <h3>🛒 Zutaten</h3>
+    <ul class="ingredients">
+      <li><label><input type="checkbox"><span>🥒 5 Einlegegurken (oder 1 kleine kernlose Schlangengurke, in feinen Scheiben)</span></label></li>
+      <li><label><input type="checkbox"><span>🍾 240 ml Brandweinessig / weißer Essig (White Distilled Vinegar)</span></label></li>
+      <li><label><input type="checkbox"><span>💧 120 ml Wasser</span></label></li>
+      <li><label><input type="checkbox"><span>🍬 25 g Zucker</span></label></li>
+      <li><label><input type="checkbox"><span>🧂 15 g Koscheres Salz / Meersalz</span></label></li>
+      <li><label><input type="checkbox"><span>🌱 2 g Koriandersamen</span></label></li>
+      <li><label><input type="checkbox"><span>🖤 2 g schwarze Pfefferkörner</span></label></li>
+      <li><label><input type="checkbox"><span>🧄 2 Knoblauchzehen (geschält und leicht zerdrückt)</span></label></li>
+      <li><label><input type="checkbox"><span>🌿 3 große Zweige frischer Dill</span></label></li>
+    </ul>
+  </div>
+
+  <!-- Zubereitung -->
+  <div class="category-card static">
+    <h3>👨‍🍳 Zubereitung</h3>
+    <ol class="steps">
+      <li>Essig, Wasser, Zucker, Salz, Koriandersamen und Pfefferkörner in einen kleinen Topf geben. Bei mittlerer Hitze ca. 2–4 Minuten erwärmen und rühren, bis sich Zucker und Salz vollständig aufgelöst haben und der Sud heiß ist.</li>
+      <li>Die Gurkenscheiben in ein sauberes, hitzebeständiges Glas schichten. Den heißen Sud darübergießen, sodass die Gurken vollständig bedeckt sind.</li>
+      <li>Knoblauchzehen und Dillzweige dazwischenstecken. Darauf achten, dass alle Zutaten unter Flüssigkeit bleiben (ggf. mit etwas Frischhaltefolie an der Oberfläche beschweren).</li>
+      <li>Auf Raumtemperatur abkühlen lassen, danach verschließen und im Kühlschrank lagern. Haltbarkeit beträgt mindestens einige Wochen.</li>
+    </ol>
+  </div>
+
+</div>
+
+<div class="back-wrap">
+  <a href="koch.html" class="menu-btn danger-btn back-link">← Zurück zur Übersicht</a>
+</div>
+
+<audio id="buttonSound" src="../../sounds/button.mp3" preload="auto"></audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Maus-Leuchteffekt für die Rezeptkarten
+  document.querySelectorAll('.category-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+    });
+  });
+
+  // Dampf-Partikel erzeugen
+  const decorContainer = document.querySelector('.background-decor');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion) {
+    const isDarkSmoke = Math.random() < 0.05;
+    if (isDarkSmoke) {
+      decorContainer.classList.add('dark-smoke');
+    }
+
+    for (let i = 0; i < 18; i++) {
+      const steam = document.createElement('div');
+      steam.className = 'steam-particle';
+      const size = Math.random() * 120 + 80;                 // 80–200 px
+      steam.style.width = `${size}px`;
+      steam.style.height = `${size * 1.25}px`;              // leicht hochkant
+      steam.style.left = `${Math.random() * 100}%`;
+      steam.style.filter = `blur(${size * 0.15}px)`;        // große Wolken = weicher
+      steam.style.setProperty('--drift', `${(Math.random() - 0.5) * 200}px`);
+      steam.style.setProperty('--peak', (Math.random() * 0.3 + 0.25).toFixed(2));
+      steam.style.animationDuration = `${Math.random() * 8 + 10}s`;            // 10–18 s
+      steam.style.animationDelay = `-${Math.random() * 18}s`;
+      decorContainer.appendChild(steam);
+    }
+  }
+
+  // Zufälliges Theme: theme-1 bis theme-4
+  document.body.classList.add(`theme-${Math.floor(Math.random() * 4) + 1}`);
+});
+</script>
+</body>
+</html>

@@ -25,38 +25,56 @@ body {
     overflow-x: hidden;
     color: #fff;
     transition: background 0.5s ease;
+    /* Standard-Hintergrund + animierter Verlauf */
+    background: linear-gradient(135deg, #134e5e, #2a7f78, #71b280, #92e6a7, #71b280, #134e5e);
+    background-size: 400% 400%;
+    animation: gradientFlow 18s ease-in-out infinite;
 }
 
-/* 2. Dynamic Themes mit passenden Farben für Überschriften & Glow */
+/* 2. Dynamic Themes mit passenden Farben für Überschriften & Glow
+      (jedes Theme hat mehr Farbstufen, damit die Bewegung sichtbar ist) */
 body.theme-1 { 
-    background: linear-gradient(135deg, #134e5e, #71b280); 
+    background: linear-gradient(135deg, #134e5e, #2a7f78, #71b280, #92e6a7, #71b280, #134e5e); 
+    background-size: 400% 400%;
     --title-color-1: #71b280; --title-color-2: #92e6a7;
     --theme-glow: rgba(113, 178, 128, 0.7);
 }
 body.theme-2 { 
-    background: linear-gradient(135deg, #3a6073, #16222a); 
+    background: linear-gradient(135deg, #16222a, #3a6073, #5FB2D8, #A1EEFF, #3a6073, #16222a); 
+    background-size: 400% 400%;
     --title-color-1: #5FB2D8; --title-color-2: #A1EEFF;
     --theme-glow: rgba(95, 178, 216, 0.7);
 }
 body.theme-3 { 
-    background: linear-gradient(135deg, #1f4037, #99f2c8); 
+    background: linear-gradient(135deg, #1f4037, #3f8a5a, #52c234, #99f2c8, #3f8a5a, #1f4037); 
+    background-size: 400% 400%;
     --title-color-1: #52c234; --title-color-2: #99f2c8;
     --theme-glow: rgba(153, 242, 200, 0.7);
 }
 body.theme-4 { 
-    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); 
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045, #ff758c, #fd1d1d, #833ab4); 
+    background-size: 400% 400%;
     --title-color-1: #ff758c; --title-color-2: #ff7eb3;
     --theme-glow: rgba(255, 117, 140, 0.7);
 }
 body.theme-5 { 
-    background: linear-gradient(135deg, #232526, #414345); 
+    background: linear-gradient(135deg, #232526, #414345, #6b6e70, #8a8d8f, #414345, #232526); 
+    background-size: 400% 400%;
     --title-color-1: #e0e0e0; --title-color-2: #ffffff;
     --theme-glow: rgba(255, 255, 255, 0.5);
 }
 body.theme-6 { 
-    background: linear-gradient(135deg, #4ca1af, #c4e0e5); 
+    background: linear-gradient(135deg, #4ca1af, #7bc4d1, #c4e0e5, #7BE5FF, #4ca1af, #2c7f8e); 
+    background-size: 400% 400%;
     --title-color-1: #7BE5FF; --title-color-2: #00E5FF;
     --theme-glow: rgba(0, 229, 255, 0.7);
+}
+
+/* Animierter Hintergrund: der Verlauf wandert langsam hin und her */
+@keyframes gradientFlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* 3. Überschriften nutzen dynamische Farbverläufe je nach Theme */
@@ -408,4 +426,9 @@ p {
 
 .animate__animated.animate__bounceIn {
     --animate-duration: 1.5s;
+}
+
+/* Weniger Bewegung, wenn der Browser es wünscht */
+@media (prefers-reduced-motion: reduce) {
+    body { animation: none; }
 }

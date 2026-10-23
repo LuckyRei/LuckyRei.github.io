@@ -8,7 +8,7 @@
   font-style: normal;
 }
 
-/* Reset (vorher fehlte der Selektor, dadurch wurde die Regel ignoriert) */
+/* Reset */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -26,16 +26,15 @@ body {
   overflow-x: hidden;
   color: #fff;
   transition: background 0.5s ease;
-  /* Kulinarisches Curry-Theme: Warme Gewürz- und Safran-Töne */
   background: linear-gradient(135deg, #2c160a, #7c3f1e, #d4812b, #ffb703, #fb8500, #7c3f1e);
   background-size: 400% 400%;
-  animation: curryFlow 18s ease-in-out infinite; /* animierter Hintergrund */
+  animation: curryFlow 18s ease-in-out infinite;
   --title-color-1: #ffb703;
   --title-color-2: #fb8500;
   --theme-glow: rgba(251, 133, 0, 0.6);
 }
 
-/* 2. Dynamic Themes mit passenden Farben für Überschriften & Glow */
+/* 2. Dynamic Themes */
 body.theme-1 {
   background: linear-gradient(135deg, #2c160a, #7c3f1e, #d4812b, #ffb703, #fb8500, #7c3f1e);
   background-size: 400% 400%;
@@ -61,7 +60,6 @@ body.theme-4 {
   --theme-glow: rgba(255, 117, 140, 0.6);
 }
 
-/* Animierter Hintergrund: der Verlauf wandert langsam hin und her */
 @keyframes curryFlow {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
@@ -72,7 +70,7 @@ body.theme-4 {
 h1 {
   font-family: 'Excelorate', sans-serif;
   font-size: clamp(2.2rem, 7vw, 4rem);
-  font-weight: normal; /* Schrift hat keinen Bold-Schnitt -> sonst "verschmiert" */
+  font-weight: normal;
   letter-spacing: 3px;
   background: linear-gradient(to bottom, #ffffff 20%, var(--title-color-1) 65%, var(--title-color-2) 100%);
   -webkit-background-clip: text;
@@ -158,7 +156,7 @@ p {
   box-shadow: 0 0 15px var(--theme-glow, rgba(255, 255, 255, 0.4));
 }
 
-/* Kategorie-Grid (Übersichtsseite) */
+/* Kategorie-Grid */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -382,9 +380,15 @@ p {
   bottom: -50px;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 60%, transparent 100%);
   border-radius: 50%;
-  filter: blur(8px);
+  filter: blur(12px);
   opacity: 0;
   animation: riseSteam linear infinite;
+}
+
+/* Easter Egg: Seltenes dunkles Rauch-Styling */
+.background-decor.dark-smoke .steam-particle {
+  background: radial-gradient(circle, rgba(30, 30, 30, 0.75) 0%, rgba(10, 10, 10, 0.3) 60%, transparent 100%);
+  mix-blend-mode: multiply;
 }
 
 @keyframes riseSteam {
@@ -395,16 +399,12 @@ p {
   20% { opacity: 0.5; }
   80% { opacity: 0.3; }
   100% {
-    transform: translateY(-110vh) translateX(40px) scale(2.5);
+    transform: translateY(-110vh) translateX(40px) scale(3);
     opacity: 0;
   }
 }
 
-/* =========================================================
-   REZEPT-SEITE
-   ========================================================= */
-
-/* Info-Chips unter dem Titel */
+/* --- REZEPT-SEITE --- */
 .meta {
   display: flex;
   gap: 10px;
@@ -433,7 +433,6 @@ p {
   box-shadow: 0 0 12px var(--theme-glow);
 }
 
-/* Layout: Zutaten schmaler, Zubereitung breiter */
 .recipe-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
@@ -448,23 +447,21 @@ p {
   .recipe-grid { grid-template-columns: 1fr; }
 }
 
-/* Rezeptkarten sind nicht klickbar -> kein "Button"-Hover */
 .category-card.static {
   cursor: default;
 }
+
 .category-card.static:hover {
   transform: none;
   background: rgba(0, 0, 0, 0.45);
   border-color: rgba(255, 255, 255, 0.35);
 }
 
-/* Überschrift mit Trennlinie */
 .category-card h3 {
   padding-bottom: 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Zutaten zum Abhaken */
 .ingredients {
   list-style: none;
 }
@@ -497,7 +494,6 @@ p {
   opacity: 0.45;
 }
 
-/* Schritte mit Zahlen-Kreisen statt Standard-Nummerierung */
 .steps {
   list-style: none;
   counter-reset: step;
@@ -532,7 +528,6 @@ p {
   box-shadow: 0 0 12px var(--theme-glow);
 }
 
-/* Zurück-Button (als Link, nicht <button> in <a>) */
 .back-wrap {
   margin-top: 30px;
   z-index: 2;
@@ -546,7 +541,6 @@ p {
   text-align: center;
 }
 
-/* Responsive Anpassungen */
 @media (max-width: 600px) {
   body {
     padding: 15px 12px;
@@ -568,14 +562,12 @@ p {
   --animate-duration: 1.5s;
 }
 
-/* Weniger Bewegung, wenn der Browser es wünscht */
 @media (prefers-reduced-motion: reduce) {
   body { animation: none; }
   .steam-particle { animation: none; }
   .category-card, .tab-btn, .menu-btn { transition: none; }
 }
 
-/* Sauber ausdrucken */
 @media print {
   body {
     background: #fff !important;
